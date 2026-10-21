@@ -5,13 +5,14 @@ import { ObjetiveProvider, ObjetiveContext } from "./context/ObjetiveContext.jsx
 import ObjetiveForm from "./components/ObjetiveForm.jsx";
 import ObjetivoList from "./components/ObjetivoList.jsx";
 import ReminderSettings from "./components/Reminder-settings.jsx";
-
+import PuntosVisor from "./components/puntosVisor.jsx";
 function AppContent() {
     const { puntos, getNivel } = useContext(ObjetiveContext);
 
     return (
         <main>
             <h1>Journey⛵</h1>
+            < PuntosVisor/>
             <ObjetiveForm />
             <ObjetivoList />
             <ReminderSettings />

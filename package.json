@@ -1,12 +1,13 @@
+
 {
-  "name": "eye-of-the-tiger",
+  "name": "journey",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -16,17 +17,5 @@
   },
   "devDependencies": {
     "vite": "^4.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PhilippeDSA/eye-of-the-tiger.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/PhilippeDSA/eye-of-the-tiger/issues"
-  },
-  "homepage": "https://github.com/PhilippeDSA/eye-of-the-tiger#readme",
-  "description": ""
+  }
 }

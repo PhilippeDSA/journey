@@ -40,34 +40,57 @@ export function ObjetiveProvider({ children }) {
         setObjetivos(prev => [...prev, objetivo]);
     };
 
-    const completarObjetivo = (id) => {
-        setObjetivos((prev) =>
-            prev.map((obj) => {
-                if (obj.id === id) {
-                    const hoy = new Date().toISOString().slice(0, 10);
-                    if (!obj.completado) {
-                        if (ultimafecha !== hoy) {
-                            const ayer = new Date();
-                            ayer.setDate(ayer.getDate() - 1);
-                            const ayerStr = ayer.toISOString().slice(0, 10);
-                            if (ultimafecha === ayerStr) {
-                                setRacha((prev) => prev + 1);
-                            } else {
-                                setRacha(1);
-                            }
-                            setUltimaFecha(hoy);
-                        }
-                    }
-                    const nuevoEstado = !obj.completado;
-                    setPuntos((prevPuntos) =>
-                        nuevoEstado ? prevPuntos + 10 : prevPuntos - 10
-                    );
-                    return { ...obj, completado: nuevoEstado };
-                }
-                return obj;
-            })
-        );
-    };
+    
+const completarObjetivo = (id) => {
+    const objetivo = objetivos.find((obj) => obj.id === id);
+
+    if (!objetivo) return;
+
+    const nuevoEstado = !objetivo.completado;
+
+    // Actualizar el objetivo sin modificar otros estados dentro
+    // de la función que recibe setObjetivos.
+    setObjetivos((prev) =>
+        prev.map((obj) =>
+            obj.id === id
+                ? { ...obj, completado: nuevoEstado }
+                : obj
+        )
+    );
+
+    // Los puntos cambian según la transición del objetivo.
+    setPuntos((prev) =>
+        Math.max(0, prev + (nuevoEstado ? 10 : -10))
+    );
+
+    // La racha se actualiza al completar, no al desmarcar.
+    if (nuevoEstado) {
+        const ahora = new Date();
+        const hoy = [
+            ahora.getFullYear(),
+            String(ahora.getMonth() + 1).padStart(2, "0"),
+            String(ahora.getDate()).padStart(2, "0")
+        ].join("-");
+
+        if (ultimafecha !== hoy) {
+            const ayer = new Date(ahora);
+            ayer.setDate(ayer.getDate() - 1);
+
+            const fechaAyer = [
+                ayer.getFullYear(),
+                String(ayer.getMonth() + 1).padStart(2, "0"),
+                String(ayer.getDate()).padStart(2, "0")
+            ].join("-");
+
+            setRacha((prev) =>
+                ultimafecha === fechaAyer ? prev + 1 : 1
+            );
+
+            setUltimaFecha(hoy);
+        }
+    }
+};
+
 
     const eliminarObjetivo = (id) => {
         setObjetivos((prev) => prev.filter((obj) => obj.id !== id));
