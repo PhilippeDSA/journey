@@ -7,13 +7,16 @@ export default function ObjetivoForm() {
     const { agregarObjetivo } = useContext(ObjetiveContext);
 
     const [textoObjetivo, setTextoObjetivo] = useState('');
-    const [tipoObjetivo, setTipoObjetivo] = useState('diario'); // <-- ¡Asegúrate de que este estado exista y tenga un valor inicial!
+    const [tipoObjetivo, setTipoObjetivo] = useState(''); // <-- ¡Asegúrate de que este estado exista y tenga un valor inicial!
     const [fechaLimite, setFechaLimite] = useState('');
     const [recordatorio, setRecordatorio] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (textoObjetivo.trim() === '') {
+        if (textoObjetivo.trim() === ''||
+        tipoObjetivo === ''||
+        fechaLimite === ''||
+        recordatorio === '') {
             alert('El objetivo no puede estar vacío.');
             return;
         }
@@ -30,7 +33,7 @@ export default function ObjetivoForm() {
 
 
         setTextoObjetivo('');
-        setTipoObjetivo('diario');
+        setTipoObjetivo('');
         setFechaLimite('');
         setRecordatorio('');
     };
@@ -43,7 +46,10 @@ export default function ObjetivoForm() {
                 value={textoObjetivo}
                 onChange={(e) => setTextoObjetivo(e.target.value)}
             />
-            <select value={tipoObjetivo} onChange={(e) => setTipoObjetivo(e.target.value)}>
+            <select 
+            required
+            value={tipoObjetivo} onChange={(e) => setTipoObjetivo(e.target.value)}>
+                <option value="">Selecciona la frecuencia del objetivo</option>
                 <option value="diario">Diario</option>
                 <option value="semanal">Semanal</option>
                 <option value="mensual">Mensual</option>
